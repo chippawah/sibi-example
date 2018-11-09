@@ -6,11 +6,11 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import './styles/index.css';
-import App from './components/App/App';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
 const client = new ApolloClient({
-  link: createHttpLink({ uri: 'http://localhost:9090' }),
+  link: createHttpLink({ uri: 'http://hubhippo.ccantrell.tech:9090' }),
   cache: new InMemoryCache()
 });
 

@@ -2,8 +2,7 @@ import Todo from '../database/Todo';
 import { get_authed_user } from '../util';
 
 async function todos(root, { _id, author }, ctx, info) {
-  const user = get_authed_user(ctx);
-  const todos = await Todo.find({ author: user }).populate('author').lean();
+  const todos = await Todo.find().populate('author').lean();
   const formatted = todos.map((todo) => {
     return Object.assign({}, todo, {
       _id: todo._id.toString(),
