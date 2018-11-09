@@ -1,0 +1,48 @@
+version: '3'
+services:
+  haproxy:
+    image: dockercloud/haproxy:latest
+    ports:
+      - '80:80'
+    links:
+      - server
+      - client
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - ./mongo_data:/data/db
+    ports:
+      - 27017:27017
+  client:
+    build:
+      context: './client'
+      dockerfile: 'Dockerfile'
+    command: 'yarn start'
+    environment:
+      - VIRTUAL_HOST=/,/*
+      - VIRTUAL_HOST_WEIGHT=1
+    expose:
+      - 3000
+    volumes:
+      - ./client/src/:/app/src
+  server:
+    build:
+      context: './server'
+      dockerfile: 'Dockerfile'
+    command: 'yarn start'
+    depends_on:
+      - mongodb
+    environment:
+      - VIRTUAL_HOST=/graphql
+      - VIRTUAL_HOST_WEIGHT=2
+      - MONGODB_URI=mongodb://mongodb:27017/docker_app
+      - GRAPHQL_PAYGROUND_PORT=9090
+    volumes:
+      - ./server/src:/app/src
+      - ./server/package.json:/app/package.json
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
