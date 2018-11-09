@@ -5,7 +5,14 @@ import { sign_token, get_authed_user } from '../util';
 import User from '../database/User';
 import Todo from '../database/Todo';
 
-// Using .lean() to keep the docs returned from mongo as plain JS objects
+function formatUser(user) {
+  return {
+    token: sign_token(user._id),
+    user: Object.assign({}, user._doc, {
+      _id: user._id.toString()
+    }),
+  };
+}
 
 // Authentication Mutations
 async function signup(root, { email, password }, ctx, info) {
@@ -22,14 +29,12 @@ async function signup(root, { email, password }, ctx, info) {
     email,
     password: hashed,
   }).save();
-  // Get a signed token for the AuthPayload
-  const token = sign_token(user._id);
-  return { token, user };
+  return formatUser(user);
 }
 
 async function login(root, { email, password }, ctx, info) {
   // Tell mongoose to get the password for comparing later
-  const user = await User.findOne({ email }, { password: true }).lean();
+  const user = await User.findOne({ email }, { email: true, password: true });
   if (!user) {
     throw new Error('The given email does not have an associated user.');
   }
@@ -40,8 +45,7 @@ async function login(root, { email, password }, ctx, info) {
   }
   // Clip the password before sending back the user
   delete user.password
-  const token = sign_token(user._id);
-  return { token, user };
+  return formatUser(user);
 }
 
 // Helper to format Todo before sending back
