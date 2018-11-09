@@ -1,8 +1,8 @@
 FROM node:8
 
 WORKDIR /app
-ADD src .
-ADD public .
+ADD src ./src
+ADD public ./public
 ADD package.json .
 ADD yarn.lock .
 

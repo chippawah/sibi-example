@@ -23,8 +23,8 @@ services:
     environment:
       - VIRTUAL_HOST=/,/*
       - VIRTUAL_HOST_WEIGHT=1
-    expose:
-      - 3000
+    ports:
+      - 3000:3000
     volumes:
       - ./client/src/:/app/src
   server:
