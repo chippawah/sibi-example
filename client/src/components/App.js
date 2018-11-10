@@ -10,6 +10,8 @@ class App extends Component {
       <div>
         <h1>Todos</h1>
         <TodoList />
+        <h1>Users</h1>
+        <UserList />
       </div>
     );
   }

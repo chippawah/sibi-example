@@ -16,13 +16,10 @@ async function todos() {
 }
 
 async function users(root, args, ctx) {
-  const authed_user = get_authed_user(ctx);
-  if (authed_user) {
-    const users = await User.find().lean()
-    return users.map((user) => {
-      return Object.assign({}, user, { _id: user._id.toString() })
-    })
-  }
+  const users = await User.find().lean()
+  return users.map((user) => {
+    return Object.assign({}, user, { _id: user._id.toString() })
+  })
 }
 
 function info() {
