@@ -15,7 +15,7 @@ function formatUser(user) {
 }
 
 // Authentication Mutations
-async function signup(root, { email, password }, ctx, info) {
+export async function signup(root, { email, password }, ctx) {
   console.log(`${email} is signing up!`);
   // Ensure the email is not taken already
   let user = await User.findOne({ email }).lean();
@@ -32,7 +32,7 @@ async function signup(root, { email, password }, ctx, info) {
   return formatUser(user);
 }
 
-async function login(root, { email, password }, ctx, info) {
+export async function login(root, { email, password }, ctx) {
   // Tell mongoose to get the password for comparing later
   const user = await User.findOne({ email }, { email: true, password: true });
   if (!user) {
@@ -48,9 +48,26 @@ async function login(root, { email, password }, ctx, info) {
   return formatUser(user);
 }
 
+// User Mutations
+export async function updateUser(root, { _id, email }, ctx) {
+  const authed_user = get_authed_user(ctx);
+  if (authed_user) {
+    const user = await User.findById(authed_user).lean();
+    const updated = Object.assign({}, user, {
+      email,
+      _id: user._id.toString()
+    })
+    await User.update({ _id: authed_user }, { email });
+    return updated;
+
+  }
+  throw new Error('You can only edit your profile.');
+}
+
+// Todo Mutations
 // Helper to format Todo before sending back
 function formatTodo(todo) {
-  let formatted = Object.assign(todo._doc, {_id: todo._id.toString()});
+   let formatted = Object.assign(todo._doc, {_id: todo._id.toString()});
   if (todo.author._id){
     formatted.author = Object.assign(todo.author, {
       _id: todo.author._id.toString()
@@ -59,15 +76,14 @@ function formatTodo(todo) {
   return formatted
 }
 
-// Todo Mutations
-async function createTodo(root, { text }, ctx, info) {
+export async function createTodo(root, { text }, ctx) {
   // Grab the user id for the author field
   const author = get_authed_user(ctx);
   const todo = await new Todo({ text, author }).save()
   return formatTodo(todo);
 }
 
-async function updateTodo(root, { _id, text }, ctx, info) {
+export async function updateTodo(root, { _id, text }, ctx) {
   const user = get_authed_user(ctx)
   // Ensure the author is the one updating the todo
   const todo = await Todo.findById(_id).populate('author')
@@ -79,7 +95,7 @@ async function updateTodo(root, { _id, text }, ctx, info) {
   return updated;
 }
 
-async function deleteTodo(root, { _id }, ctx, info) {
+export async function deleteTodo(root, { _id }, ctx) {
   const author = get_authed_user(ctx);
   const todo = await Todo.findOne({ _id }).populate('author')
   if (!todo) {
@@ -92,12 +108,4 @@ async function deleteTodo(root, { _id }, ctx, info) {
   // Remove the todo from the DB
   await todo.remove();
   return formatTodo(todo);
-}
-
-export default {
-  signup,
-  login,
-  createTodo,
-  updateTodo,
-  deleteTodo,
 }

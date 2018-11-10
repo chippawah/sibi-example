@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import helmet from 'helmet';
 
 import Query from './resolvers/Query';
-import Mutation from './resolvers/Mutation';
+import * as Mutation from './resolvers/Mutation';
 import User from './database/User';
 import { createUsers } from './util'
 
@@ -25,7 +25,6 @@ mongoose.connection
   .once('open', async ()=> {
     console.log('MongoDB connection established!');
     let users = await User.find({}).lean();
-    console.log(users);
     if (users.length === 0) {
       users = createUsers(DEFAULT_PASS)
     }

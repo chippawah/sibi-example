@@ -24,7 +24,7 @@ export function get_authed_user(context) {
   // Throw an error if the user is not authorized
   throw new Error('Not Authorized.');
 }
-
+// Helper to create 3 fake users
 export async function createUsers(password){
   let users = [];
   const hashed = await bcrypt.hash(password, 10);
