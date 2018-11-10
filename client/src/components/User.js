@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
+import { Label, ListGroupItem } from 'react-bootstrap';
 
 export default class User extends Component {
   render () {
     return (
-      <div>
-        <div>
-          <p>email: {this.props.user.email}</p>
-        </div>
-        <br />
-      </div>
+      <ListGroupItem>
+        <p><Label>Email:</Label> {this.props.user.email}</p>
+      </ListGroupItem>
     )
   }
 }
