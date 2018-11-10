@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
 import faker from 'faker';
+import bcrypt from 'bcryptjs';
+
+import User from './database/User'
 
 const JWT_SESSION_SECRET = process.env.JWT_SESSION_SECRET || '5up3rS3cret'
 
@@ -22,15 +25,16 @@ export function get_authed_user(context) {
   throw new Error('Not Authorized.');
 }
 
-export function createUsers(){
+export async function createUsers(password){
   let users = [];
+  const hashed = await bcrypt.hash(password, 10);
   for (var i = 0; i < 3; i++) {
-    const user = {
+    const user = await new User({
       email: faker.internet.email(),
-      password: 'foo-bar'
-    }
+      password: hashed
+    }).save()
+    console.log(`You can log in with ${user.email} : ${password}`)
     users.push(user)
-    console.log(`You can log in with ${user.email} : ${user.password}`)
   }
   return users
 }

@@ -19,18 +19,16 @@ const server = new GraphQLServer({
 });
 // Setup the DB connection
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/sibi'
+const DEFAULT_PASS = process.env.DEFAULT_PASS || 'foo-bar';
 mongoose.connect(uri, { useNewUrlParser: true });
 mongoose.connection
   .once('open', async ()=> {
-    console.log('MongoDB connection established!')
-    let users = await User.find().lean();
+    console.log('MongoDB connection established!');
+    let users = await User.find({}).lean();
+    console.log(users);
     if (users.length === 0) {
-      users = createUsers();
-      await User.collection.insert(users);
+      users = createUsers(DEFAULT_PASS)
     }
-    users.forEach((user) => {
-      console.log(`You can log in with ${user.email} : ${user.password}`)
-    });
     server.start(server_opts, ({ port }) => {
       console.log(`Server is listening on ${port}`)
     });
