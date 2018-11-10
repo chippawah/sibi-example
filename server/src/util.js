@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
+import faker from 'faker';
+
 const JWT_SESSION_SECRET = process.env.JWT_SESSION_SECRET || '5up3rS3cret'
+
 
 export function sign_token(user_id) {
   return jwt.sign({ user_id }, JWT_SESSION_SECRET);
@@ -17,4 +20,17 @@ export function get_authed_user(context) {
   }
   // Throw an error if the user is not authorized
   throw new Error('Not Authorized.');
+}
+
+export function createUsers(){
+  let users = [];
+  for (var i = 0; i < 3; i++) {
+    const user = {
+      email: faker.internet.email(),
+      password: 'foo-bar'
+    }
+    users.push(user)
+    console.log(`You can log in with ${user.email} : ${user.password}`)
+  }
+  return users
 }

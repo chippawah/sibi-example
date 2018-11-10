@@ -11,8 +11,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   mongodb:
     image: mongo:latest
-    volumes:
-      - ./mongo_data:/data/db
     ports:
       - 27017:27017
   client:

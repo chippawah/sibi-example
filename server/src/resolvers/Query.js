@@ -1,7 +1,8 @@
 import Todo from '../database/Todo';
+import User from '../database/User';
 import { get_authed_user } from '../util';
 
-async function todos(root, { _id, author }, ctx, info) {
+async function todos() {
   const todos = await Todo.find().populate('author').lean();
   const formatted = todos.map((todo) => {
     return Object.assign({}, todo, {
@@ -14,8 +15,18 @@ async function todos(root, { _id, author }, ctx, info) {
   return formatted
 }
 
+async function users(root, args, ctx) {
+  const authed_user = get_authed_user(ctx);
+  if (authed_user) {
+    const users = await User.find().lean()
+    return users.map((user) => {
+      return Object.assign({}, user, { _id: user._id.toString() })
+    })
+  }
+}
+
 function info() {
   return 'This is the API for the Sibi example app!'
 }
 
-export default { info, todos }
+export default { info, todos, users }

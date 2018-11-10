@@ -18,6 +18,7 @@ type User {
 type Query {
   info: String!
   todos: [Todo!]!
+  users: [User!]!
 }
 
 type Mutation {
