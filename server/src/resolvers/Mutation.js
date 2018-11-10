@@ -49,7 +49,7 @@ export async function login(root, { email, password }, ctx) {
 }
 
 // User Mutations
-export async function updateUser(root, { _id, email }, ctx) {
+export async function updateUser(root, { email }, ctx) {
   const authed_user = get_authed_user(ctx);
   if (authed_user) {
     const user = await User.findById(authed_user).lean();
@@ -59,9 +59,22 @@ export async function updateUser(root, { _id, email }, ctx) {
     })
     await User.update({ _id: authed_user }, { email });
     return updated;
-
   }
-  throw new Error('You can only edit your profile.');
+}
+
+export async function deleteUser(root, args, ctx) {
+  const authed_user = get_authed_user(ctx);
+  if (authed_user) {
+    const user = await User.findOne({ _id: authed_user });
+    if (!user) {
+      throw new Error('The authenticated user was not found in the DB');
+    }
+    await user.remove()
+    const formatted = Object.assign({}, user._doc, {
+      _id: user._id.toString()
+    });
+    return formatted;
+  }
 }
 
 // Todo Mutations
