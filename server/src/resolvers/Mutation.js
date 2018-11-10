@@ -65,10 +65,12 @@ export async function updateUser(root, { email }, ctx) {
 export async function deleteUser(root, args, ctx) {
   const authed_user = get_authed_user(ctx);
   if (authed_user) {
-    const user = await User.findOne({ _id: authed_user });
+    const user = await User.findOne({ _id: authed_user }).populate('todos');
     if (!user) {
       throw new Error('The authenticated user was not found in the DB');
     }
+    // Remove the user and any of their todos
+    await Todo.deleteMany({author: authed_user});
     await user.remove()
     const formatted = Object.assign({}, user._doc, {
       _id: user._id.toString()
@@ -92,8 +94,11 @@ function formatTodo(todo) {
 export async function createTodo(root, { text }, ctx) {
   // Grab the user id for the author field
   const author = get_authed_user(ctx);
-  const todo = await new Todo({ text, author }).save()
-  return formatTodo(todo);
+  if (author) {
+    const todo = await new Todo({ text, author }).save()
+    return formatTodo(todo);
+  }
+  throw new Error('You must be logged in to create a todo')
 }
 
 export async function updateTodo(root, { _id, text }, ctx) {

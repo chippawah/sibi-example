@@ -12,7 +12,6 @@ type Todo {
 type User {
   _id: String!
   email: String!
-  todos: [Todo!]!
 }
 
 type Query {
