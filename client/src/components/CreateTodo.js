@@ -27,7 +27,11 @@ export default class CreateTodo extends Component {
           type="text"
           placeholder="The text for the todo"
         />
-        <Mutation mutation={POST_TODO} variables={{ text }}>
+        <Mutation
+          mutation={POST_TODO}
+          variables={{ text }}
+          onComplete={() => this.props.history.push('/todos')}
+        >
           {(postTodo) => (
             <Button onClick={postTodo}>
               Add todo

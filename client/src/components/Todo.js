@@ -5,8 +5,7 @@ export default class Todo extends Component {
   render () {
     return (
       <ListGroupItem header={`Todo: ${this.props.todo.text}`}>
-        <div><Label bsSty>By:</Label> {this.props.todo.author.email}
-        </div>
+        <div><Label>By:</Label> {this.props.todo.author.email}</div>
       </ListGroupItem>
     )
   }
