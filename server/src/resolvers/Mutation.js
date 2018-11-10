@@ -85,7 +85,7 @@ function formatTodo(todo) {
    let formatted = Object.assign(todo._doc, {_id: todo._id.toString()});
   if (todo.author._id){
     formatted.author = Object.assign(todo.author, {
-      _id: todo.author._id.toString()
+      _id: todo.author._id.toString(),
     });
   }
   return formatted
@@ -93,8 +93,9 @@ function formatTodo(todo) {
 
 export async function createTodo(root, { text }, ctx) {
   // Grab the user id for the author field
-  const author = get_authed_user(ctx);
-  if (author) {
+  const user = get_authed_user(ctx);
+  const author = await User.findById(user);
+  if (author && user) {
     const todo = await new Todo({ text, author }).save()
     return formatTodo(todo);
   }

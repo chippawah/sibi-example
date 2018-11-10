@@ -5,13 +5,30 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter } from 'react-router-dom';
+import { setContext } from 'apollo-link-context';
 
 import './styles/index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import { AUTH_TOKEN } from './constants';
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(AUTH_TOKEN)
+  console.log('TOKEN', token)
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  }
+})
+
+const apollo_http_link = createHttpLink({
+  uri: 'http://hubhippo.ccantrell.tech:9090'
+})
 
 const client = new ApolloClient({
-  link: createHttpLink({ uri: 'http://hubhippo.ccantrell.tech:9090' }),
+  link: authLink.concat(apollo_http_link),
   cache: new InMemoryCache()
 });
 
