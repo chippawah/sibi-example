@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import TodoList from './TodoList';
-import UserList from './UserList';
-import CreateTodo from './CreateTodo';
+import TodoList from './Todos/TodoList';
+import CreateTodo from './Todos/CreateTodo';
+import UserList from './Users/UserList';
 import Login from './Login';
 import Header from './Header';
 import '../styles/App.css';

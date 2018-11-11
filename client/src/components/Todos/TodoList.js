@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import { ListGroup, PageHeader } from 'react-bootstrap'
 
 import Todo from './Todo'
-import { TODO_QUERY } from '../constants'
+import { TODO_QUERY } from '../../constants'
 
 export default class TodoList extends Component {
   render() {

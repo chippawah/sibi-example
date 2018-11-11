@@ -33,3 +33,12 @@ export const POST_TODO = gql`
     }
   }
 `
+
+export const USER_QUERY = gql`
+  {
+    users {
+      email
+      _id
+    }
+  }
+`
