@@ -27,7 +27,10 @@ class Header extends Component {
               <NavItem onClick={this.handleClick('/')}>
                 View All Users
               </NavItem>
-              <NavItem onClick={this.handleClick('/logout')}>
+              <NavItem onClick={() => {
+                sessionStorage.clear();
+                this.props.history.push('/');
+              }}>
                 Logout
               </NavItem>
             </Nav>

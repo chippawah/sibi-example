@@ -17,7 +17,7 @@ const mutationChild = (mutation) => {
   return (
     <ButtonGroup>
       <Button bsSize="small" bsStyle="danger" onClick={mutation}>
-        <Glyphicon glyph="remove-circle" />
+        <Glyphicon glyph="trash" />
       </Button>
     </ButtonGroup>
   )
@@ -27,14 +27,11 @@ export default class Todo extends Component {
   handleUpdate = (_id) => {
     return (store, { data: { todo } }) => {
       const query = TODO_QUERY;
-      const res = store.readQuery({ query })
-      if (res) {
-        const { todos } = res;
-        const updated = remove(todos, (item) => {
-          return item._id !== _id
-        });
-        store.writeQuery({ query , data: { todos: updated }});
-      }
+      const { todos } = store.readQuery({ query });
+      const updated = remove(todos, (item) => {
+        return item._id !== _id
+      });
+      store.writeQuery({ query , data: { todos: updated }});
     }
   }
   render () {

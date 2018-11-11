@@ -8,12 +8,9 @@ export default class CreateTodo extends Component {
   state = { text: '' }
   handleUpdate = (store, { data: { createTodo: newTodo } }) => {
     const query = TODO_QUERY;
-    const res = store.readQuery({ query });
-    if (res) {
-      const { todos } = res;
-      todos.push(newTodo);
-      store.writeQuery({ query, data: { todos } })
-    }
+    const { todos } = store.readQuery({ query });
+    todos.push(newTodo);
+    store.writeQuery({ query, data: { todos } });
   }
   render() {
     const { text } = this.state;

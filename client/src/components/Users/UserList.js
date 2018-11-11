@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { ListGroup, PageHeader } from 'react-bootstrap';
+import jwt from 'jsonwebtoken';
 
-import { USER_QUERY } from '../../constants';
+import { USER_QUERY, AUTH_TOKEN } from '../../constants';
 import User from './User';
 
 export default class UserList extends Component {
@@ -21,7 +22,7 @@ export default class UserList extends Component {
               )
             }
             if (error) {
-              console.log('error', error)
+              console.error('error', error);
               return (
                 <div>
                   Error while fetching data...
@@ -29,10 +30,24 @@ export default class UserList extends Component {
               )
             }
             const { users } = data;
+            const token = sessionStorage.getItem(AUTH_TOKEN);
+            let authed_user;
+            if (token) {
+              const { user_id } = jwt.decode(token);
+              authed_user = user_id;
+            }
             return (
               <ListGroup>
                 {users.map((user) => {
-                  return <User key={user._id} user={user} />
+                  let allow_mutations = false;
+                  if (user._id === authed_user) {
+                    allow_mutations = true;
+                  }
+                  return (<User
+                    allow_mutations={allow_mutations}
+                    key={user._id}
+                    user={user}
+                  />);
                 })}
               </ListGroup>
             )

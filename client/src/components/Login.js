@@ -12,14 +12,10 @@ export default class Login extends Component {
     password: '',
   }
 
-  _confirm = async (data) => {
+  _saveUser = async (data) => {
     const { token } = this.state.login ? data.login : data.signup
-    this._saveUserData(token);
+    sessionStorage.setItem(AUTH_TOKEN, token);
     this.props.history.push('/');
-  }
-
-  _saveUserData = token => {
-    sessionStorage.setItem(AUTH_TOKEN, token)
   }
 
   handleMutation = (mutation) => {
@@ -40,7 +36,7 @@ export default class Login extends Component {
   }
 
   render() {
-    const { login, email, password } = this.state
+    const { login, email, password } = this.state;
     return (
       <div>
         <PageHeader>{login ? 'Login' : 'Sign Up'}</PageHeader>
@@ -61,7 +57,7 @@ export default class Login extends Component {
         <Mutation
           mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
           variables={{ email, password }}
-          onCompleted={(data) => {this._confirm(data)}}
+          onCompleted={(data) => {this._saveUser(data)}}
         >
           {this.handleMutation}
         </Mutation>
