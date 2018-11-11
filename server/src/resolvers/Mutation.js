@@ -115,6 +115,7 @@ export async function updateTodo(root, { _id, text }, ctx) {
 }
 
 export async function deleteTodo(root, { _id }, ctx) {
+  console.log('DELETING A TODO', _id)
   const author = get_authed_user(ctx);
   const todo = await Todo.findOne({ _id }).populate('author')
   if (!todo) {

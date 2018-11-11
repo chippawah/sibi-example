@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import { ListGroup, PageHeader } from 'react-bootstrap'
 
 import Todo from './Todo'
+import { TODO_QUERY } from '../constants'
 
 export default class TodoList extends Component {
   render() {
-    const TODO_QUERY = gql`
-      {
-        todos {
-          text
-          _id
-          author {
-            email
-          }
-        }
-      }
-    `
     return (
       <div>
         <PageHeader>Todos <small>The list of all Todos</small></PageHeader>
@@ -43,7 +32,13 @@ export default class TodoList extends Component {
             return (
               <ListGroup>
                 {todos.map((todo) => {
-                  return (<Todo key={todo._id} todo={todo} />)
+                  return (
+                    <Todo
+                      history={this.props.history}
+                      key={todo._id}
+                      todo={todo}
+                    />
+                  )
                 })}
               </ListGroup>
             )

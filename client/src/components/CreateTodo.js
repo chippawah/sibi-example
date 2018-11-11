@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
+import { TODO_QUERY, POST_TODO } from '../constants';
 
 export default class CreateTodo extends Component {
-  state = { text: '' }
+  constructor(props) {
+    super(props);
+    this.state = { text: '' };
+  }
   render() {
-    const POST_TODO = gql`
-      mutation PostTodo($text: String!) {
-        createTodo(text: $text) {
-          _id
-          text
-          author {
-            email
-          }
-        }
-      }
-    `
     const { text } = this.state;
     return (
       <div>
@@ -30,7 +22,13 @@ export default class CreateTodo extends Component {
         <Mutation
           mutation={POST_TODO}
           variables={{ text }}
-          onComplete={() => this.props.history.push('/todos')}
+          onCompleted={async () => this.props.history.push('/todos')}
+          update={(store, { data: { createTodo: newTodo } }) => {
+            const query = TODO_QUERY;
+            const { todos } = store.readQuery({ query });
+            todos.push(newTodo);
+            store.writeQuery({ query }, todos)
+          }}
         >
           {(postTodo) => (
             <Button onClick={postTodo}>
