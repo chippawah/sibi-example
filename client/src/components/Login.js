@@ -40,12 +40,12 @@ export default class Login extends Component {
     )
   }
   updateStore = (store, { data }) => {
-    if (!this.state.login) {
-      const { signup: { user }} = data
+    if (data.signup) {
+      const { signup: { user } } = data
       const query = USER_QUERY;
       const { users } = store.readQuery({ query });
       users.push(user);
-      store.writeQuery({query, users})
+      store.writeQuery({query, data: { users }})
     }
   }
   render() {

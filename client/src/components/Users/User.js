@@ -57,12 +57,13 @@ export default class User extends Component {
       </Button>
     )
   }
-  deleteFromStore = (store, { data: { deleteUser: user }}) => {
+  deleteFromStore = async (store, { data: { deleteUser: user }}) => {
     const query = USER_QUERY;
     const { users } = store.readQuery({ query });
     remove(users, ({ _id }) => { return _id === user._id });
     sessionStorage.clear();
     store.writeQuery({ query, data: { users }});
+    this.props.history.push('/');
   }
   deleteChild = (mutation) => {
     return (
@@ -95,6 +96,7 @@ export default class User extends Component {
               <Mutation
                 mutation={UPDATE_USER}
                 update={this.updateStore}
+                variables={{ email: this.state.email }}
               >
                 {this.updateChild}
               </Mutation>

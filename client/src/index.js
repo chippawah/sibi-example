@@ -14,7 +14,6 @@ import { AUTH_TOKEN } from './constants';
 
 const authLink = setContext((_, { headers }) => {
   const token = sessionStorage.getItem(AUTH_TOKEN)
-  console.log('TOKEN', token)
   return {
     headers: {
       ...headers,

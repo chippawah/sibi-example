@@ -13,7 +13,6 @@ export default class UserList extends Component {
         <PageHeader>Users <small>The list of all Users</small></PageHeader>
         <Query query={USER_QUERY}>
           {({ loading, error, data }) => {
-            console.log(data);
             if (loading) {
               return (
                 <div>
@@ -44,6 +43,7 @@ export default class UserList extends Component {
                     allow_mutations = true;
                   }
                   return (<User
+                    history={this.props.history}
                     allow_mutations={allow_mutations}
                     key={user._id}
                     user={user}
