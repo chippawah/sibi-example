@@ -14,6 +14,10 @@ export const SIGNUP_MUTATION = gql`
   mutation SignUp($email: String!, $password: String!) {
     signup(email: $email, password: $password) {
       token
+      user {
+        _id
+        email
+      }
     }
   }
 `
@@ -23,6 +27,14 @@ export const UPDATE_USER = gql`
     updateUser(email: $email) {
       _id
       email
+    }
+  }
+`
+
+export const DELETE_USER = gql`
+  mutation {
+    deleteUser {
+      _id
     }
   }
 `

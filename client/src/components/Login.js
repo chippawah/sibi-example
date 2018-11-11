@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { Button, ButtonToolbar, PageHeader } from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
 
-import { AUTH_TOKEN, LOGIN_MUTATION, SIGNUP_MUTATION } from '../constants';
+import {
+  AUTH_TOKEN,
+  LOGIN_MUTATION,
+  SIGNUP_MUTATION,
+  USER_QUERY
+} from '../constants';
 
 export default class Login extends Component {
 
@@ -34,7 +39,15 @@ export default class Login extends Component {
       </ButtonToolbar>
     )
   }
-
+  updateStore = (store, { data }) => {
+    if (!this.state.login) {
+      const { signup: { user }} = data
+      const query = USER_QUERY;
+      const { users } = store.readQuery({ query });
+      users.push(user);
+      store.writeQuery({query, users})
+    }
+  }
   render() {
     const { login, email, password } = this.state;
     return (
@@ -58,6 +71,7 @@ export default class Login extends Component {
           mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
           variables={{ email, password }}
           onCompleted={(data) => {this._saveUser(data)}}
+          update={this.updateStore}
         >
           {this.handleMutation}
         </Mutation>

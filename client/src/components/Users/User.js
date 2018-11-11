@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import find from 'lodash/find';
+import remove from 'lodash/remove';
 import {
   Button,
   ButtonGroup,
@@ -15,7 +16,7 @@ import {
   ControlLabel
  } from 'react-bootstrap';
 
-import { UPDATE_USER, USER_QUERY } from '../../constants';
+import { UPDATE_USER, USER_QUERY, DELETE_USER } from '../../constants';
 
 export default class User extends Component {
   constructor(props) {
@@ -34,7 +35,6 @@ export default class User extends Component {
   handleEditorSave = (mutation) => {
     return (event) => {
       event.preventDefault();
-      console.log('SAVE WITH NEW EMAIL', this.state.email);
       this.handleEdit()
       mutation();
     }
@@ -46,7 +46,7 @@ export default class User extends Component {
     updated_user.email = user.email;
     store.writeQuery({query, data: { users }});
   }
-  mutationChild = (mutation) => {
+  updateChild = (mutation) => {
     return (
       <Button
         bsStyle="success"
@@ -54,6 +54,20 @@ export default class User extends Component {
         onClick={this.handleEditorSave(mutation)}
       >
         <Glyphicon glyph="floppy-disk"/>
+      </Button>
+    )
+  }
+  deleteFromStore = (store, { data: { deleteUser: user }}) => {
+    const query = USER_QUERY;
+    const { users } = store.readQuery({ query });
+    remove(users, ({ _id }) => { return _id === user._id });
+    sessionStorage.clear();
+    store.writeQuery({ query, data: { users }});
+  }
+  deleteChild = (mutation) => {
+    return (
+      <Button bsStyle="danger" onClick={mutation}>
+        <Glyphicon glyph="trash" />
       </Button>
     )
   }
@@ -80,10 +94,9 @@ export default class User extends Component {
               </Button>
               <Mutation
                 mutation={UPDATE_USER}
-                variables={{ email: this.state.email }}
                 update={this.updateStore}
               >
-                {this.mutationChild}
+                {this.updateChild}
               </Mutation>
             </ButtonGroup>
           </form>
@@ -101,9 +114,13 @@ export default class User extends Component {
           <Button bsStyle="warning" onClick={this.handleEdit}>
             <Glyphicon glyph="pencil" />
           </Button>
-          <Button bsStyle="danger">
-            <Glyphicon glyph="trash" />
-          </Button>
+          <Mutation
+            mutation={DELETE_USER}
+            variables={{_id: this.props.user._id}}
+            update={this.deleteFromStore}
+          >
+            {this.deleteChild}
+          </Mutation>
         </ButtonGroup>
       ) ;
     }
