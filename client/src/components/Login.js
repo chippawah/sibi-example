@@ -1,39 +1,44 @@
 import React, { Component } from 'react';
 import { Button, ButtonToolbar, PageHeader } from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag'
-import { AUTH_TOKEN } from '../constants';
 
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
-  }
-`
+import { AUTH_TOKEN, LOGIN_MUTATION, SIGNUP_MUTATION } from '../constants';
 
-const SIGNUP_MUTATION = gql`
-  mutation SignUp($email: String!, $password: String!) {
-    signup(email: $email, password: $password) {
-      token
-    }
-  }
-`
+export default class Login extends Component {
 
-class Login extends Component {
   state = {
     login: true,
     email: '',
     password: '',
   }
+
   _confirm = async (data) => {
     const { token } = this.state.login ? data.login : data.signup
     this._saveUserData(token);
     this.props.history.push('/');
   }
+
   _saveUserData = token => {
-    localStorage.setItem(AUTH_TOKEN, token)
+    sessionStorage.setItem(AUTH_TOKEN, token)
   }
+
+  handleMutation = (mutation) => {
+    const { login } = this.state
+    return (
+      <ButtonToolbar>
+        <Button bsStyle="success" onClick={mutation}>
+          {login ? 'Login' : 'Create Account'}
+        </Button>
+        <Button
+          bsStyle="warning"
+          onClick={() => this.setState({ login: !login })}
+        >
+          {login ? 'Click here to Signup' : 'Click here to Login'}
+        </Button>
+      </ButtonToolbar>
+    )
+  }
+
   render() {
     const { login, email, password } = this.state
     return (
@@ -58,24 +63,9 @@ class Login extends Component {
           variables={{ email, password }}
           onCompleted={(data) => {this._confirm(data)}}
         >
-          {(mutation) => {
-            return (
-              <ButtonToolbar>
-                <Button bsStyle="success" onClick={mutation}>
-                  {login ? 'Login' : 'Create Account'}
-                </Button>
-                <Button bsStyle="warning" onClick={() => this.setState({ login: !login })}>
-                  {login
-                    ? 'Click here to Signup'
-                    : 'Click here to Login'}
-                </Button>
-              </ButtonToolbar>
-            )
-          }}
+          {this.handleMutation}
         </Mutation>
       </div>
     )
   }
 }
-
-export default Login

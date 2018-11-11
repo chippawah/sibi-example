@@ -12,7 +12,6 @@ export default class TodoList extends Component {
         <PageHeader>Todos <small>The list of all Todos</small></PageHeader>
         <Query query={TODO_QUERY}>
           {({ loading, error, data }) => {
-            console.log(data);
             if (loading) {
               return (
                 <div>

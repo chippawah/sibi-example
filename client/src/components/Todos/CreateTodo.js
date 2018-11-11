@@ -4,17 +4,17 @@ import { Mutation } from 'react-apollo';
 
 import { TODO_QUERY, POST_TODO } from '../../constants';
 
-const handleUpdate = (store, { data: { createTodo: newTodo } }) => {
-  const query = TODO_QUERY;
-  const { todos } = store.readQuery({ query });
-  todos.push(newTodo);
-  store.writeQuery({ query }, todos)
-}
-
 export default class CreateTodo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { text: '' };
+  state = { text: '' }
+  handleUpdate = (store, { data: { createTodo: newTodo } }) => {
+    const query = TODO_QUERY;
+    const res = store.readQuery({ query });
+    if (res) {
+      console.log('RES', res);
+      const { todos } = res;
+      todos.push(newTodo);
+      store.writeQuery({ query }, todos)
+    }
   }
   render() {
     const { text } = this.state;
@@ -30,7 +30,7 @@ export default class CreateTodo extends Component {
           mutation={POST_TODO}
           variables={{ text }}
           onCompleted={async () => this.props.history.push('/todos')}
-          update={handleUpdate}
+          update={this.handleUpdate}
         >
           {(mutation) => ( <Button onClick={mutation}> Add todo </Button> )}
         </Mutation>

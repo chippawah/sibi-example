@@ -13,7 +13,7 @@ import * as serviceWorker from './serviceWorker';
 import { AUTH_TOKEN } from './constants';
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(AUTH_TOKEN)
+  const token = sessionStorage.getItem(AUTH_TOKEN)
   console.log('TOKEN', token)
   return {
     headers: {
@@ -24,7 +24,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 const apollo_http_link = createHttpLink({
-  uri: 'http://hubhippo.ccantrell.tech:9090'
+  uri: `http://${window.location.hostname}:9090`
 })
 
 const client = new ApolloClient({
