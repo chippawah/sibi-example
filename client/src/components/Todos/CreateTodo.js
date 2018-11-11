@@ -14,10 +14,10 @@ export default class CreateTodo extends Component {
   state = { text: '' }
   handleUpdate = (store, { data: { createTodo: newTodo } }) => {
     const query = TODO_QUERY;
-    const res = store.readQuery({ query });
-    const { todos } = res;
+    const { todos } = store.readQuery({ query });
     todos.push(newTodo);
     store.writeQuery({ query, data: { todos } });
+
   }
   render() {
     const { text } = this.state;
@@ -35,13 +35,13 @@ export default class CreateTodo extends Component {
         <Mutation
           mutation={POST_TODO}
           variables={{ text }}
-          onCompleted={async () => this.props.history.push('/todos')}
+          onCompleted={async () => this.setState({text: ''})}
           update={this.handleUpdate}
         >
           {(mutation) => {
             return (
               <Button type="submit" onClick={(e) => {
-                e.preventDefault()
+                e.preventDefault();
                 mutation();
               }}>
                 Add todo

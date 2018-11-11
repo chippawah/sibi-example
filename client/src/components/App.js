@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import TodoList from './Todos/TodoList';
-import CreateTodo from './Todos/CreateTodo';
 import UserList from './Users/UserList';
 import Login from './Login';
 import Header from './Header';
@@ -15,7 +14,6 @@ class App extends Component {
         <Header />
         <Switch>
           <Route exact path='/' component={UserList} />
-          <Route exact path="/create-todo" component={CreateTodo} />
           <Route exact path="/todos" component={TodoList} />
           <Route exact path="/login" component={Login} />
         </Switch>

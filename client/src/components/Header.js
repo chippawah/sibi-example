@@ -21,9 +21,6 @@ class Header extends Component {
               <NavItem onClick={this.handleClick('/todos')}>
                 View All Todos
               </NavItem>
-              <NavItem onClick={this.handleClick('/create-todo')}>
-                Add Todo Form
-              </NavItem>
               <NavItem onClick={this.handleClick('/')}>
                 View All Users
               </NavItem>

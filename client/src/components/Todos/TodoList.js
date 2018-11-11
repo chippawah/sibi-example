@@ -3,6 +3,7 @@ import { Query } from 'react-apollo';
 import { ListGroup, PageHeader } from 'react-bootstrap'
 
 import Todo from './Todo'
+import CreateTodo from './CreateTodo'
 import { TODO_QUERY } from '../../constants'
 
 export default class TodoList extends Component {
@@ -40,9 +41,11 @@ export default class TodoList extends Component {
                   )
                 })}
               </ListGroup>
+
             )
           }}
         </Query>
+        <CreateTodo history={this.props.history}/>
       </div>
     )
   }

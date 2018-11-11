@@ -27,7 +27,9 @@ export default class Todo extends Component {
   handleUpdate = (_id) => {
     return (store, { data: { todo } }) => {
       const query = TODO_QUERY;
-      const { todos } = store.readQuery({ query });
+      const res = store.readQuery({ query });
+      let todos = []
+      if (res.todos) { todos = res.todos }
       const updated = remove(todos, (item) => {
         return item._id !== _id
       });
