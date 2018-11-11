@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { Button, ButtonToolbar, PageHeader } from 'react-bootstrap';
+import {
+  Button,
+  ButtonToolbar,
+  Form,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Grid,
+  Row
+} from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
 
 import {
@@ -27,7 +36,10 @@ export default class Login extends Component {
     const { login } = this.state
     return (
       <ButtonToolbar>
-        <Button bsStyle="success" onClick={mutation}>
+        <Button type="submit" bsStyle="success" onClick={(e) => {
+          e.preventDefault()
+          mutation();
+        }}>
           {login ? 'Login' : 'Create Account'}
         </Button>
         <Button
@@ -51,31 +63,41 @@ export default class Login extends Component {
   render() {
     const { login, email, password } = this.state;
     return (
-      <div>
-        <PageHeader>{login ? 'Login' : 'Sign Up'}</PageHeader>
-        <div>
-          <input
-            value={email}
-            onChange={e => this.setState({ email: e.target.value })}
-            type="text"
-            placeholder="Your email address"
-          />
-          <input
-            value={password}
-            onChange={e => this.setState({ password: e.target.value })}
-            type="password"
-            placeholder="Choose a safe password"
-          />
-        </div>
-        <Mutation
-          mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-          variables={{ email, password }}
-          onCompleted={(data) => {this._saveUser(data)}}
-          update={this.updateStore}
-        >
-          {this.handleMutation}
-        </Mutation>
-      </div>
+      <Form>
+        <FormGroup controlId="userForm">
+          <ControlLabel>{login ? 'Login' : 'Sign Up'}</ControlLabel>
+          <Grid>
+            <FormGroup controlId="userFormEmail">
+              <ControlLabel>Email</ControlLabel>
+              <FormControl
+                value={email}
+                onChange={e => this.setState({ email: e.target.value })}
+                type="text"
+                placeholder="Your email address"
+              />
+            </FormGroup>
+            <FormGroup controlId="userFormPassword">
+              <ControlLabel>Password</ControlLabel>
+              <FormControl
+                value={password}
+                onChange={e => this.setState({ password: e.target.value })}
+                type="password"
+                placeholder="Choose a safe password"
+              />
+            </FormGroup>
+            <Row>
+              <Mutation
+                mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
+                variables={{ email, password }}
+                onCompleted={(data) => {this._saveUser(data)}}
+                update={this.updateStore}
+              >
+                {this.handleMutation}
+              </Mutation>
+            </Row>
+          </Grid>
+        </FormGroup>
+      </Form>
     )
   }
 }

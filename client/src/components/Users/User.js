@@ -11,6 +11,7 @@ import {
   Grid,
   Row,
   Col,
+  Form,
   FormControl,
   FormGroup,
   ControlLabel
@@ -77,7 +78,7 @@ export default class User extends Component {
       <div>
         <Row>Editing user: {this.props.user.email}</Row>
         <Row>
-          <form>
+          <Form>
             <FormGroup controlId="userEmail">
               <ControlLabel>Update your email here</ControlLabel>
               <FormControl
@@ -101,7 +102,7 @@ export default class User extends Component {
                 {this.updateChild}
               </Mutation>
             </ButtonGroup>
-          </form>
+          </Form>
         </Row>
       </div>
     )

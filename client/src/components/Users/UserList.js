@@ -42,12 +42,14 @@ export default class UserList extends Component {
                   if (user._id === authed_user) {
                     allow_mutations = true;
                   }
-                  return (<User
-                    history={this.props.history}
-                    allow_mutations={allow_mutations}
-                    key={user._id}
-                    user={user}
-                  />);
+                  return (
+                    <User
+                      history={this.props.history}
+                      allow_mutations={allow_mutations}
+                      key={user._id}
+                      user={user}
+                    />
+                  );
                 })}
               </ListGroup>
             )
