@@ -57,7 +57,7 @@ export async function updateUser(root, { email }, ctx) {
       email,
       _id: user._id.toString()
     })
-    await User.update({ _id: authed_user }, { email });
+    await User.updateOne({ _id: authed_user }, { email });
     return updated;
   }
 }

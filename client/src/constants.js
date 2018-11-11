@@ -18,6 +18,15 @@ export const SIGNUP_MUTATION = gql`
   }
 `
 
+export const UPDATE_USER = gql`
+  mutation UpdateUser($email: String!) {
+    updateUser(email: $email) {
+      _id
+      email
+    }
+  }
+`
+
 export const TODO_QUERY = gql`
   {
     todos {
