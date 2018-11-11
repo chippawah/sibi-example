@@ -26,15 +26,14 @@ const mutationChild = (mutation) => {
 export default class Todo extends Component {
   handleUpdate = (_id) => {
     return (store, { data: { todo } }) => {
-      console.log('HANDLE UDATE CLOSURE')
       const query = TODO_QUERY;
       const res = store.readQuery({ query })
       if (res) {
-        console.log('REMOVE', remove)
         const { todos } = res;
-        const updated = remove(todos, { _id });
-        console.log('UPDATES AFTER REMOVE', updated);
-        store.writeQuery({ query }, updated);
+        const updated = remove(todos, (item) => {
+          return item._id !== _id
+        });
+        store.writeQuery({ query , data: { todos: updated }});
       }
     }
   }

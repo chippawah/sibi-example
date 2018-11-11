@@ -10,10 +10,9 @@ export default class CreateTodo extends Component {
     const query = TODO_QUERY;
     const res = store.readQuery({ query });
     if (res) {
-      console.log('RES', res);
       const { todos } = res;
       todos.push(newTodo);
-      store.writeQuery({ query }, todos)
+      store.writeQuery({ query, data: { todos } })
     }
   }
   render() {

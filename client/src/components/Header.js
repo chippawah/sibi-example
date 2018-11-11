@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 
@@ -34,8 +33,8 @@ class Header extends Component {
             </Nav>
           ) : (
             <Nav>
-              <NavItem><Link to="/login">Login</Link></NavItem>
-              <NavItem><Link to="/">View All Users</Link></NavItem>
+              <NavItem onClick={this.handleClick('/login')}>Login</NavItem>
+              <NavItem onClick={this.handleClick('/')}>View All Users</NavItem>
             </Nav>
           )}
       </Navbar>
