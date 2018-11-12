@@ -11,12 +11,14 @@ Technologies Used:
 - ***`graphql-yoga` & `create-react-app`*** - For easy setup
 - ***Docker & Docker Compose*** - For easy deployment
 
+---
 ### Default Users
 
 To generate some fake user emails when the DB User table is empty I've used the [`faker`](https://github.com/marak/Faker.js/) npm package.
 
 The default password is `'foo-bar'` when env variable `DEFAULT_PASS` is empty.
 
+---
 ### Running The App
 
 To run the app you can use either `docker-compose up` or
@@ -30,11 +32,13 @@ To view the GraphQL playground go to `http://localhost:9090`
 > *If you run into issues you can use `docker-compose up -d mongodb` before
 running `docker-compose up`.*
 
+---
 ### User List
 When you first open the page you'll see a user list:
 
 ![user_list](./images/user-list.png)
 
+---
 ### Login & Signup
 
 You can click the login tab in the navbar
@@ -46,6 +50,7 @@ You can also click the blue button to switch between login and signup
 
 ![signup](./images/signup.png)
 
+---
 ### Todo List
 
 After logging in you'll be directed to a todo list.
@@ -54,6 +59,7 @@ Here you can add and delete todos.
 ![empty-todo-list](./images/empty-todo-list.png)
 ![todo-list](./images/todo-list.png)
 
+---
 ### Authenticated User List
 
 Once logged in you'll see a user list with options to edit and delete your user.
@@ -61,6 +67,7 @@ Once logged in you'll see a user list with options to edit and delete your user.
 
 ![logged-in-user-list](./images/logged-in-user-list.png)
 
+---
 ### Editing a User
 
 Click the pencil to edit the user email and save with the floppy disk icon.
