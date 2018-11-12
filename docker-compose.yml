@@ -9,9 +9,6 @@ services:
       context: './client'
       dockerfile: 'Dockerfile'
     command: 'yarn start'
-    environment:
-      - VIRTUAL_HOST=/,/*
-      - VIRTUAL_HOST_WEIGHT=1
     ports:
       - 3000:3000
     volumes:
@@ -24,8 +21,6 @@ services:
     depends_on:
       - mongodb
     environment:
-      - VIRTUAL_HOST=/graphql
-      - VIRTUAL_HOST_WEIGHT=2
       - MONGODB_URI=mongodb://mongodb:27017/docker_app
       - GRAPHQL_PAYGROUND_PORT=9090
     volumes:
