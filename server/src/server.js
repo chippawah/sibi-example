@@ -10,7 +10,7 @@ import { createUsers } from './util'
 
 // Set up the GraphQL Server
 const server_opts = {
-  port: process.env.GRAPHQL_PAYGROUND_PORT || 3000
+  port: process.env.GRAPHQL_PAYGROUND_PORT || 9090
 }
 const server = new GraphQLServer({
   typeDefs: './src/database/schema.graphql',

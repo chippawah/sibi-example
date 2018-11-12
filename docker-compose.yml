@@ -1,14 +1,5 @@
 version: '3'
 services:
-  haproxy:
-    image: dockercloud/haproxy:latest
-    ports:
-      - '80:80'
-    links:
-      - server
-      - client
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
   mongodb:
     image: mongo:latest
     ports:
