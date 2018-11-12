@@ -29,7 +29,7 @@ export default class Login extends Component {
   _saveUser = async (data) => {
     const { token } = this.state.login ? data.login : data.signup
     sessionStorage.setItem(AUTH_TOKEN, token);
-    this.props.history.push('/');
+    this.props.history.push('/todos');
   }
 
   handleMutation = (mutation) => {
