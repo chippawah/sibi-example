@@ -8,6 +8,7 @@
   "scripts": {
     "start": "yarn run start:client & yarn run start:server",
     "start:client": "cd ./client && yarn run start",
-    "start:server": "cd ./server && yarn run start"
+    "start:server": "cd ./server && yarn run start",
+    "install_packages": "cd server ; yarn install ; cd ../client ; yarn install ; cd .."
   }
 }

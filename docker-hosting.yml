@@ -1,0 +1,53 @@
+version: '3'
+networks:
+  sibi:
+    external: false
+  proxy:
+    external: true
+services:
+  mongodb:
+    image: mongo:latest
+    expose:
+      - 27017
+    networks:
+      - sibi
+  client:
+    build:
+      context: './client'
+      dockerfile: 'Dockerfile'
+    command: 'yarn start'
+    # environment:
+    #   - BACKEND_URL=https://sibi-example.pinkhippos.io:9090
+    networks:
+      - sibi
+      - proxy
+    labels:
+      - traefik.frontend.rule=Host:sibi-example.pinkhippos.io
+      - traefik.port=3000
+      - traefik.docker.network=proxy
+    expose:
+      - 3000
+    volumes:
+      - ./client/src/:/app/src
+  server:
+    build:
+      context: './server'
+      dockerfile: 'Dockerfile'
+    command: 'yarn start'
+    networks:
+      - sibi
+      - proxy
+    labels:
+      - traefik.frontend.rule=Host:graphql.pinkhippos.io
+      - traefik.port=9090
+      - traefik.docker.network=proxy
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/docker_app
+      - GRAPHQL_PAYGROUND_PORT=9090
+    volumes:
+      - ./server/src:/app/src
+      - ./server/package.json:/app/package.json
+    ports:
+      - 9090:9090

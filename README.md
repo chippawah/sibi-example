@@ -21,6 +21,10 @@ The default password is `'foo-bar'` when env variable `DEFAULT_PASS` is empty.
 ---
 ### Running The App
 
+You'll need to install packages in both `client` and `server`.
+You can use the script `yarn install_packages` for convenience or
+go to each folder and run `yarn install`.
+
 To run the app you can use either `docker-compose up` or
 run a local instance of MongoDB and use the `yarn start` command.
 In either case you can open `http://localhost:3000` in your browser to view the React client.
