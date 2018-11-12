@@ -4,9 +4,10 @@
 Full stack todo app with basic authentication.
 Technologies Used:
 - ***React*** - For the client side app
-- ***GraphQL*** - For client server data exchange
+- ***GraphQL*** - For client <-> server data exchange
 - ***MongoDB*** - For persisting data
 - ***Faker*** - For dummy user creation
+- ***Apollo*** - For data management on the client
 - ***Docker & Docker Compose*** - For ease of deployment
 
 ### Default Users
@@ -19,7 +20,9 @@ The default password is `'foo-bar'` when env variable `DEFAULT_PASS` is empty.
 
 To run the app you can use either `docker-compose up` or
 run a local instance of MongoDB and use the `yarn start` command.
-In either case you can open `http://localhost:3000` in your browser.
+In either case you can open `http://localhost:3000` in your browser to view the React client.
+
+To view the GraphQL playground go to `http://localhost:9090`
 
 > *You need to make sure the MongoDB instance is running before the server starts.*
 >
@@ -38,6 +41,14 @@ and login with one of the emails given and the default password.
 
 ![login](./images/login.png)
 
+### Todo List
+
+After logging in you'll be directed to a todo list.
+Here you can add and delete todos.
+
+![empty-todo-list](./images/empty-todo-list.png)
+![todo-list](./images/todo-list.png)
+
 ### Authenticated User List
 
 Once logged in you'll see a user list with options to edit and delete your user.
@@ -50,10 +61,3 @@ Once logged in you'll see a user list with options to edit and delete your user.
 Click the pencil to edit the user email and save with the floppy disk icon.
 
 ![edit-user](./images/edit-user.png)
-
-### Todo List
-
-You can add and view todos by clicking the View All Todos tab
-
-![empty-todo-list](./images/empty-todo-list.png)
-![todo-list](./images/todo-list.png)

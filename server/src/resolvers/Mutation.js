@@ -69,7 +69,6 @@ export async function deleteUser(root, args, ctx) {
     if (!user) {
       throw new Error('The authenticated user was not found in the DB');
     }
-    console.log('USER', user);
     // Remove the user and any of their todos
     user.todos.forEach(async (todo) => {
       await todo.remove();
