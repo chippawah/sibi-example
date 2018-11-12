@@ -7,7 +7,8 @@ import {
   FormControl,
   ControlLabel,
   Grid,
-  Row
+  Row,
+  PageHeader
 } from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
 
@@ -64,8 +65,8 @@ export default class Login extends Component {
     const { login, email, password } = this.state;
     return (
       <Form>
+        <PageHeader>{login ? 'Login' : 'Sign Up'}</PageHeader>
         <FormGroup controlId="userForm">
-          <ControlLabel>{login ? 'Login' : 'Sign Up'}</ControlLabel>
           <Grid>
             <FormGroup controlId="userFormEmail">
               <ControlLabel>Email</ControlLabel>
