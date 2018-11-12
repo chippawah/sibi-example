@@ -12,6 +12,7 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { AUTH_TOKEN } from './constants';
 
+// Adds the token to requests
 const authLink = setContext((_, { headers }) => {
   const token = sessionStorage.getItem(AUTH_TOKEN)
   return {
@@ -22,10 +23,12 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
+// Creates a link the GraphQL instance
 const apollo_http_link = createHttpLink({
   uri: `http://${window.location.hostname}:9090`
 })
 
+// Creates the client used for mutations and queries
 const client = new ApolloClient({
   link: authLink.concat(apollo_http_link),
   cache: new InMemoryCache()

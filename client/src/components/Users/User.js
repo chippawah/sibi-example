@@ -25,6 +25,7 @@ import {
 } from '../../constants';
 
 export default class User extends Component {
+  // Using constructor here to set state initially with user email
   constructor(props) {
     super(props);
     this.state = {
@@ -32,12 +33,15 @@ export default class User extends Component {
       email: this.props.user.email,
     };
   }
+  // Helper to render the basic user info
   renderUser = () => {
     return ( <p><Label>Email:</Label>{this.props.user.email}</p> )
   }
+  // Helper to update the state when input changes
   handleEditorChange = ({ target: { value: email } }) => {
     this.setState({ email });
   }
+  // Helper to prevent form default and submit the mutation
   handleEditorSave = (mutation) => {
     return (event) => {
       event.preventDefault();
@@ -45,6 +49,7 @@ export default class User extends Component {
       mutation();
     }
   }
+  // Helper to update the store with the updated user
   updateStore = (store, { data: { updateUser: user } }) => {
     const query = USER_QUERY;
     const { users } = store.readQuery({ query });
@@ -52,6 +57,7 @@ export default class User extends Component {
     updated_user.email = user.email;
     store.writeQuery({query, data: { users }});
   }
+  // Helper to render the update mutation
   updateChild = (mutation) => {
     return (
       <Button
@@ -63,6 +69,7 @@ export default class User extends Component {
       </Button>
     )
   }
+  // Helper to clean out store after user is removed
   deleteFromStore = async (store, { data: { deleteUser: user }}) => {
     const { users } = store.readQuery({ query: USER_QUERY });
     const { todos } = store.readQuery({ query: TODO_QUERY });
@@ -73,6 +80,7 @@ export default class User extends Component {
     store.writeQuery({ query: TODO_QUERY, data: { todos }});
     this.props.history.push('/');
   }
+  // Fn for delete mutation child
   deleteChild = (mutation) => {
     return (
       <Button bsStyle="danger" onClick={mutation}>
@@ -80,6 +88,7 @@ export default class User extends Component {
       </Button>
     )
   }
+  // Renders the editor for the user
   renderEditor = () => {
     return (
       <div>
@@ -115,9 +124,11 @@ export default class User extends Component {
       </div>
     )
   }
+  // Handles updating state when the edit button is clicked
   handleEdit = () => {
     this.setState({ editing: !this.state.editing });
   }
+  // Helper to render the edit and delete buttons if it's the authed user
   renderButtons = () => {
     if (this.props.allow_mutations) {
       return (

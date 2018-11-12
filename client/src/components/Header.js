@@ -6,6 +6,8 @@ import { AUTH_TOKEN } from '../constants';
 
 
 class Header extends Component {
+  // Helper to navigate to other views
+  // Not using Link to avoid validation errors in react
   handleClick = (path) => {
     return () => {
       this.props.history.push(path);

@@ -26,13 +26,13 @@ export default class Login extends Component {
     email: '',
     password: '',
   }
-
+  // Helper to save the user to the sessionStorage after authenticating
   _saveUser = async (data) => {
     const { token } = this.state.login ? data.login : data.signup
     sessionStorage.setItem(AUTH_TOKEN, token);
     this.props.history.push('/todos');
   }
-
+  // Helper to render the proper mutation buttons
   handleMutation = (mutation) => {
     const { login } = this.state
     return (
@@ -52,6 +52,7 @@ export default class Login extends Component {
       </ButtonToolbar>
     )
   }
+  // Helper to update the store with the new user
   updateStore = (store, { data }) => {
     if (data.signup) {
       const { signup: { user } } = data

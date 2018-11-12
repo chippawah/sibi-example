@@ -11,7 +11,9 @@ import { Mutation } from 'react-apollo';
 import { TODO_QUERY, POST_TODO } from '../../constants';
 
 export default class CreateTodo extends Component {
+  // Add a text field in state to save values of updates
   state = { text: '' }
+  // Helper to update the store after creating a todo
   handleUpdate = (store, { data: { createTodo: newTodo } }) => {
     const query = TODO_QUERY;
     const { todos } = store.readQuery({ query });
@@ -19,6 +21,18 @@ export default class CreateTodo extends Component {
     store.writeQuery({ query, data: { todos } });
 
   }
+  // Helper to render the Mutation child fn
+  mutationChild = (mutation) => {
+    return (
+      <Button type="submit" onClick={(e) => {
+        e.preventDefault();
+        mutation();
+      }}>
+        Add todo
+      </Button>
+    )
+  }
+
   render() {
     const { text } = this.state;
     return (
@@ -38,16 +52,7 @@ export default class CreateTodo extends Component {
           onCompleted={async () => this.setState({text: ''})}
           update={this.handleUpdate}
         >
-          {(mutation) => {
-            return (
-              <Button type="submit" onClick={(e) => {
-                e.preventDefault();
-                mutation();
-              }}>
-                Add todo
-              </Button>
-            )
-          }}
+          {this.mutationChild}
         </Mutation>
       </Form>
     )

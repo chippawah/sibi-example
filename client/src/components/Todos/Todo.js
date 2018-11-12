@@ -13,6 +13,7 @@ import remove from 'lodash/remove'
 
 import { TODO_QUERY, DELETE_TODO } from '../../constants'
 
+// Helper to render the mutation child fn
 const mutationChild = (mutation) => {
   return (
     <ButtonGroup>
@@ -24,6 +25,7 @@ const mutationChild = (mutation) => {
 }
 
 export default class Todo extends Component {
+  // Helper to update the store with the updated todo
   handleUpdate = (_id) => {
     return (store, { data: { todo } }) => {
       const query = TODO_QUERY;

@@ -7,6 +7,18 @@ import CreateTodo from './CreateTodo'
 import { TODO_QUERY } from '../../constants'
 
 export default class TodoList extends Component {
+  // Helper to map over the todo list and return Todo Components
+  renderTodos = (todos) => {
+    return todos.map((todo) => {
+      return (
+        <Todo
+          history={this.props.history}
+          key={todo._id}
+          todo={todo}
+        />
+      )
+    })
+  }
   render() {
     return (
       <div>
@@ -30,18 +42,7 @@ export default class TodoList extends Component {
             }
             const { todos } = data;
             return (
-              <ListGroup>
-                {todos.map((todo) => {
-                  return (
-                    <Todo
-                      history={this.props.history}
-                      key={todo._id}
-                      todo={todo}
-                    />
-                  )
-                })}
-              </ListGroup>
-
+              <ListGroup>{this.renderTodos(todos)}</ListGroup>
             )
           }}
         </Query>

@@ -7,6 +7,23 @@ import { USER_QUERY, AUTH_TOKEN } from '../../constants';
 import User from './User';
 
 export default class UserList extends Component {
+  // Helper to render the Users and allow mutations on authed user
+  renderUsers = (users, authed_user) => {
+    return users.map((user) => {
+      let allow_mutations = false;
+      if (user._id === authed_user) {
+        allow_mutations = true;
+      }
+      return (
+        <User
+          history={this.props.history}
+          allow_mutations={allow_mutations}
+          key={user._id}
+          user={user}
+        />
+      );
+    })
+  }
   render() {
     return (
       <div>
@@ -37,20 +54,7 @@ export default class UserList extends Component {
             }
             return (
               <ListGroup>
-                {users.map((user) => {
-                  let allow_mutations = false;
-                  if (user._id === authed_user) {
-                    allow_mutations = true;
-                  }
-                  return (
-                    <User
-                      history={this.props.history}
-                      allow_mutations={allow_mutations}
-                      key={user._id}
-                      user={user}
-                    />
-                  );
-                })}
+                {this.renderUsers(users, authed_user)}
               </ListGroup>
             )
           }}
