@@ -21,4 +21,5 @@ In either case you can open `http://localhost:3000` in your browser.
 ### Default Users
 
 To generate some fake user emails when the DB User table is empty I've used the [`faker`](https://github.com/marak/Faker.js/) npm package.
+
 The default password is `'foo-bar'` when env variable `DEFAULT_PASS` is empty.
