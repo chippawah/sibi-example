@@ -16,7 +16,7 @@ To run the app you can use either `docker-compose up` or
 run a local instance of MongoDB and use the `yarn start` command.
 In either case you can open `http://localhost:3000` in your browser.
 
-*You need to make sure the MongoDB instance is running before the server starts*
+> *You need to make sure the MongoDB instance is running before the server starts*
 
 ### Default Users
 
