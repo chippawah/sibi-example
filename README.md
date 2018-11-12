@@ -8,7 +8,8 @@ Technologies Used:
 - ***MongoDB*** - For persisting data
 - ***Faker*** - For dummy user creation
 - ***Apollo*** - For data management on the client
-- ***Docker & Docker Compose*** - For ease of deployment
+- ***`graphql-yoga` & `create-react-app`*** - For easy setup
+- ***Docker & Docker Compose*** - For easy deployment
 
 ### Default Users
 
@@ -34,12 +35,16 @@ When you first open the page you'll see a user list:
 
 ![user_list](./images/user-list.png)
 
-### Login
+### Login & Signup
 
 You can click the login tab in the navbar
 and login with one of the emails given and the default password.
 
+You can also click the blue button to switch between login and signup
+
 ![login](./images/login.png)
+
+![signup](./images/signup.png)
 
 ### Todo List
 
