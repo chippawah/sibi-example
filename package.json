@@ -1,0 +1,13 @@
+{
+  "name": "sibi-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "ssh://git@gitlab.pinkhippos.io:2222/chippawah/sibi-example.git",
+  "author": "chippawah <charles.cantrell@me.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn run start:client & yarn run start:server",
+    "start:client": "cd ./client && yarn run start",
+    "start:server": "cd ./server && yarn run start"
+  }
+}
