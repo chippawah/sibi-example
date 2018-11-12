@@ -65,12 +65,9 @@ export default class User extends Component {
   }
   deleteFromStore = async (store, { data: { deleteUser: user }}) => {
     const { users } = store.readQuery({ query: USER_QUERY });
-    const { todos } = store.readQuery({ query: TODO_QUERY });
-    remove(todos, ({author: { _id }}) => { return _id !== user._id });
     remove(users, ({ _id }) => { return _id === user._id });
     sessionStorage.clear();
     store.writeQuery({ query: USER_QUERY, data: { users }});
-    store.writeQuery({ query: TODO_QUERY, data: { todos }});
     this.props.history.push('/');
   }
   deleteChild = (mutation) => {
@@ -105,6 +102,7 @@ export default class User extends Component {
                 mutation={UPDATE_USER}
                 update={this.updateStore}
                 variables={{ email: this.state.email }}
+                refetchQueries={[USER_QUERY, TODO_QUERY]}
               >
                 {this.updateChild}
               </Mutation>
