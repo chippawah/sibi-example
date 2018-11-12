@@ -23,23 +23,32 @@ In either case you can open `http://localhost:3000` in your browser.
 
 > *You need to make sure the MongoDB instance is running before the server starts*
 
+### User List
 When you first open the page you'll see a user list:
 
 ![user_list](./images/user-list.png)
+
+### Login
 
 You can click the login tab in the navbar
 and login with one of the emails given and the default password.
 
 ![login](./images/login.png)
 
+### Authenticated User List
+
 Once logged in you'll see a user list with options to edit and delete your user.
 > When you delete your user you will be logged out and your todos will be deleted.
 
 ![logged-in-user-list](./images/logged-in-user-list.png)
 
+### Editing a User
+
 Click the pencil to edit the user email and save with the floppy disk icon.
 
 ![edit-user](./images/edit-user.png)
+
+### Todo List
 
 You can add and view todos by clicking the View All Todos tab
 
