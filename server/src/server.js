@@ -24,10 +24,12 @@ mongoose.connect(uri, { useNewUrlParser: true });
 mongoose.connection
   .once('open', async ()=> {
     console.log('MongoDB connection established!');
+    // Create some users if none exist in the DB
     let users = await User.find({}).lean();
     if (users.length === 0) {
       users = createUsers(DEFAULT_PASS)
     }
+    // Start listening for requests once things are bootstrapped
     server.start(server_opts, ({ port }) => {
       console.log(`Server is listening on ${port}`)
     });

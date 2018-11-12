@@ -6,7 +6,6 @@ import User from './database/User'
 
 const JWT_SESSION_SECRET = process.env.JWT_SESSION_SECRET || '5up3rS3cret'
 
-
 export function sign_token(user_id) {
   return jwt.sign({ user_id }, JWT_SESSION_SECRET);
 }

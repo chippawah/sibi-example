@@ -5,6 +5,7 @@ import { sign_token, get_authed_user } from '../util';
 import User from '../database/User';
 import Todo from '../database/Todo';
 
+// Helper to format a user before sending it back
 function formatUser(user) {
   return {
     token: sign_token(user._id),
@@ -99,6 +100,7 @@ export async function createTodo(root, { text }, ctx) {
   const author = await User.findById(user);
   if (author && user) {
     const todo = await new Todo({ text, author }).save()
+    // Push the todo onto the user doc
     await User.findByIdAndUpdate(author._id, {
       $push: { todos: todo._id.toString() }
     })
@@ -120,7 +122,6 @@ export async function updateTodo(root, { _id, text }, ctx) {
 }
 
 export async function deleteTodo(root, { _id }, ctx) {
-  console.log('DELETING A TODO', _id)
   const author = get_authed_user(ctx);
   const todo = await Todo.findOne({ _id }).populate('author')
   if (!todo) {

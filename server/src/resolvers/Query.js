@@ -4,7 +4,7 @@ import { get_authed_user } from '../util';
 
 async function todos() {
   const todos = await Todo.find().populate('author').lean();
-  const formatted = todos.map((todo) => {
+  return todos.map((todo) => {
     return Object.assign({}, todo, {
       _id: todo._id.toString(),
       author: Object.assign(todo.author, {
@@ -12,7 +12,6 @@ async function todos() {
       })
     });
   });
-  return formatted
 }
 
 async function users(root, args, ctx) {
