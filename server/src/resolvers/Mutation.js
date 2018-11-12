@@ -69,8 +69,11 @@ export async function deleteUser(root, args, ctx) {
     if (!user) {
       throw new Error('The authenticated user was not found in the DB');
     }
+    console.log('USER', user);
     // Remove the user and any of their todos
-    await Todo.deleteMany({author: authed_user});
+    user.todos.forEach(async (todo) => {
+      await todo.remove();
+    })
     await user.remove()
     const formatted = Object.assign({}, user._doc, {
       _id: user._id.toString()
@@ -97,6 +100,9 @@ export async function createTodo(root, { text }, ctx) {
   const author = await User.findById(user);
   if (author && user) {
     const todo = await new Todo({ text, author }).save()
+    await User.findByIdAndUpdate(author._id, {
+      $push: { todos: todo._id.toString() }
+    })
     return formatTodo(todo);
   }
   throw new Error('You must be logged in to create a todo')

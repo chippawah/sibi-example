@@ -17,7 +17,12 @@ import {
   ControlLabel
  } from 'react-bootstrap';
 
-import { UPDATE_USER, USER_QUERY, DELETE_USER } from '../../constants';
+import {
+  UPDATE_USER,
+  USER_QUERY,
+  DELETE_USER,
+  TODO_QUERY,
+} from '../../constants';
 
 export default class User extends Component {
   constructor(props) {
@@ -59,11 +64,13 @@ export default class User extends Component {
     )
   }
   deleteFromStore = async (store, { data: { deleteUser: user }}) => {
-    const query = USER_QUERY;
-    const { users } = store.readQuery({ query });
+    const { users } = store.readQuery({ query: USER_QUERY });
+    const { todos } = store.readQuery({ query: TODO_QUERY });
+    remove(todos, ({author: { _id }}) => { return _id !== user._id });
     remove(users, ({ _id }) => { return _id === user._id });
     sessionStorage.clear();
-    store.writeQuery({ query, data: { users }});
+    store.writeQuery({ query: USER_QUERY, data: { users }});
+    store.writeQuery({ query: TODO_QUERY, data: { todos }});
     this.props.history.push('/');
   }
   deleteChild = (mutation) => {
