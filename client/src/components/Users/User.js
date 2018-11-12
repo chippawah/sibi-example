@@ -65,9 +65,13 @@ export default class User extends Component {
   }
   deleteFromStore = async (store, { data: { deleteUser: user }}) => {
     const { users } = store.readQuery({ query: USER_QUERY });
+    const { todos } = store.readQuery({ query: TODO_QUERY });
     remove(users, ({ _id }) => { return _id === user._id });
+    remove(todos, ({ author: { email } }) => { return email === user.email });
+    console.log('AFTER REMOVE', todos, users);
     sessionStorage.clear();
     store.writeQuery({ query: USER_QUERY, data: { users }});
+    store.writeQuery({ query: TODO_QUERY, data: { todos }});
     this.props.history.push('/');
   }
   deleteChild = (mutation) => {

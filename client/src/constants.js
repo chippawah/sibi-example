@@ -35,6 +35,7 @@ export const DELETE_USER = gql`
   mutation {
     deleteUser {
       _id
+      email
     }
   }
 `

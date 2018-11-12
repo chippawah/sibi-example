@@ -43,7 +43,7 @@ export default class Login extends Component {
           {login ? 'Login' : 'Create Account'}
         </Button>
         <Button
-          bsStyle="warning"
+          bsStyle="primary"
           onClick={() => this.setState({ login: !login })}
         >
           {login ? 'Click here to Signup' : 'Click here to Login'}
