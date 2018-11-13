@@ -7,10 +7,10 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
-    "faker": "^4.1.0",
     "graphql-yoga": "^1.16.7",
     "helmet": "^3.15.0",
     "jsonwebtoken": "^8.3.0",
+    "mockjs": "^1.0.1-beta3",
     "mongoose": "^5.3.10",
     "nodemon": "^1.18.6"
   },

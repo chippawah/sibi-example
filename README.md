@@ -6,7 +6,7 @@ Technologies Used:
 - ***React*** - For the client side app
 - ***GraphQL*** - For client <-> server data exchange
 - ***MongoDB*** - For persisting data
-- ***Faker*** - For dummy user creation
+- ***MockJS*** - For dummy user creation
 - ***Apollo*** - For data management on the client
 - ***`graphql-yoga` & `create-react-app`*** - For easy setup
 - ***Docker & Docker Compose*** - For easy deployment
@@ -14,7 +14,7 @@ Technologies Used:
 ---
 ### Default Users
 
-To generate some fake user emails when the DB User table is empty I've used the [`faker`](https://github.com/marak/Faker.js/) npm package.
+To generate some fake user emails when the DB User table is empty I've used the [`mockjs`](https://www.npmjs.com/package/mockjs) npm package.
 
 The default password is `'foo-bar'` when env variable `DEFAULT_PASS` is empty.
 

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import faker from 'faker';
+import mock from 'mockjs'
 import bcrypt from 'bcryptjs';
 
 import User from './database/User'
@@ -29,7 +29,7 @@ export async function createUsers(password){
   const hashed = await bcrypt.hash(password, 10);
   for (var i = 0; i < 3; i++) {
     const user = await new User({
-      email: faker.internet.email(),
+      email: mock.Random.email(),
       password: hashed
     }).save()
     console.log(`You can log in with ${user.email} : ${password}`)
