@@ -16,8 +16,8 @@ function formatUser(user) {
 }
 
 // Authentication Mutations
-export async function signup(root, { email, password }, ctx) {
-  console.log(`${email} is signing up!`);
+export async function signup(root, { first_name, last_name, email, password }) {
+  console.log(`${first_name} ${last_name} is signing up!`);
   // Ensure the email is not taken already
   let user = await User.findOne({ email }).lean();
   if (user) {
@@ -28,6 +28,8 @@ export async function signup(root, { email, password }, ctx) {
   // Save the user to the database
   user = await new User({
     email,
+    fisrt_name,
+    last_name,
     password: hashed,
   }).save();
   return formatUser(user);

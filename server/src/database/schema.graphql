@@ -12,6 +12,8 @@ type Todo {
 type User {
   _id: String!
   email: String!
+  first_name: String!
+  last_name: String!
 }
 
 type Query {
@@ -21,9 +23,9 @@ type Query {
 }
 
 type Mutation {
-  signup(email: String!, password: String!): AuthPayload
+  signup(first_name: String!, last_name: String!, email: String!, password: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
-  updateUser(email: String!): User
+  updateUser(email: String, first_name: String, last_name: String): User
   deleteUser: User
   createTodo(text: String!): Todo!
   updateTodo(_id: ID!, text: String!): Todo

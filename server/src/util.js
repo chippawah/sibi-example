@@ -30,6 +30,8 @@ export async function createUsers(password){
   for (var i = 0; i < 3; i++) {
     const user = await new User({
       email: mock.Random.email(),
+      first_name: mock.Random.first(),
+      last_name: mock.Random.last(),
       password: hashed
     }).save()
     console.log(`You can log in with ${user.email} : ${password}`)
