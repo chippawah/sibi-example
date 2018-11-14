@@ -31,30 +31,45 @@ export default class User extends Component {
     this.state = {
       editing: false,
       email: this.props.user.email,
+      first_name: this.props.user.first_name,
+      last_name: this.props.user.last_name,
     };
   }
   // Helper to render the basic user info
   renderUser = () => {
-    return ( <p><Label>Email:</Label>{this.props.user.email}</p> )
+    return (
+      <div>
+        <Label>Email:</Label><p>{this.props.user.email}</p>
+        <Label>First Name:</Label><p>{this.props.user.first_name}</p>
+        <Label>Last Name:</Label><p>{this.props.user.last_name}</p>
+      </div>
+
+    );
   }
   // Helper to update the state when input changes
-  handleEditorChange = ({ target: { value: email } }) => {
-    this.setState({ email });
+  handleEditorChange = (type) => {
+    return ({ target: { value } }) => {
+      const updates = {};
+      updates[type] = value;
+      this.setState(updates);
+    }
   }
   // Helper to prevent form default and submit the mutation
   handleEditorSave = (mutation) => {
     return (event) => {
       event.preventDefault();
-      this.handleEdit()
       mutation();
+      this.handleEdit();
     }
   }
   // Helper to update the store with the updated user
   updateStore = (store, { data: { updateUser: user } }) => {
     const query = USER_QUERY;
     const { users } = store.readQuery({ query });
-    const updated_user = find(users, ({ _id }) => { return _id === user._id });
+    let updated_user = find(users, ({ _id }) => { return _id === user._id });
     updated_user.email = user.email;
+    updated_user.first_name = user.first_name;
+    updated_user.last_name = user.last_name;
     store.writeQuery({query, data: { users }});
   }
   // Helper to render the update mutation
@@ -92,15 +107,31 @@ export default class User extends Component {
   renderEditor = () => {
     return (
       <div>
-        <Row>Editing user: {this.props.user.email}</Row>
+        <Row>Editing user: {this.props.user.first_name}</Row>
         <Row>
           <Form>
             <FormGroup controlId="userEmail">
-              <ControlLabel>Update your email here</ControlLabel>
+              <ControlLabel>Update Your Email</ControlLabel>
               <FormControl
                 type="text"
                 value={this.state.email}
-                onChange={this.handleEditorChange}
+                onChange={this.handleEditorChange('email')}
+              />
+            </FormGroup>
+            <FormGroup controlId="userFirstName">
+              <ControlLabel>Update Your First Name</ControlLabel>
+              <FormControl
+                type="text"
+                value={this.state.first_name}
+                onChange={this.handleEditorChange('first_name')}
+              />
+            </FormGroup>
+            <FormGroup controlId="userLastName">
+              <ControlLabel>Update Your Last Name</ControlLabel>
+              <FormControl
+                type="text"
+                value={this.state.last_name}
+                onChange={this.handleEditorChange('last_name')}
               />
             </FormGroup>
             <ButtonGroup>
@@ -113,8 +144,12 @@ export default class User extends Component {
               <Mutation
                 mutation={UPDATE_USER}
                 update={this.updateStore}
-                variables={{ email: this.state.email }}
-                refetchQueries={[USER_QUERY, TODO_QUERY]}
+                variables={{
+                  email: this.state.email,
+                  first_name: this.state.first_name,
+                  last_name: this.state.last_name,
+                }}
+                refetchQueries={[{query: USER_QUERY}, {query: TODO_QUERY}]}
               >
                 {this.updateChild}
               </Mutation>

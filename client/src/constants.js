@@ -11,22 +11,26 @@ export const LOGIN_MUTATION = gql`
 `
 
 export const SIGNUP_MUTATION = gql`
-  mutation SignUp($email: String!, $password: String!) {
-    signup(email: $email, password: $password) {
+  mutation SignUp($first_name: String!, $last_name: String!, $email: String!, $password: String!) {
+    signup(first_name: $first_name, last_name: $last_name, email: $email, password: $password) {
       token
       user {
         _id
         email
+        first_name
+        last_name
       }
     }
   }
 `
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($email: String!) {
-    updateUser(email: $email) {
+  mutation UpdateUser($email: String, $first_name: String, $last_name: String) {
+    updateUser(email: $email, first_name: $first_name, last_name: $last_name) {
       _id
       email
+      first_name
+      last_name
     }
   }
 `
@@ -77,6 +81,8 @@ export const USER_QUERY = gql`
     users {
       email
       _id
+      first_name
+      last_name
     }
   }
 `

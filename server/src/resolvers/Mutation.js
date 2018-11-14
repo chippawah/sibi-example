@@ -28,7 +28,7 @@ export async function signup(root, { first_name, last_name, email, password }) {
   // Save the user to the database
   user = await new User({
     email,
-    fisrt_name,
+    first_name,
     last_name,
     password: hashed,
   }).save();
@@ -52,15 +52,14 @@ export async function login(root, { email, password }, ctx) {
 }
 
 // User Mutations
-export async function updateUser(root, { email }, ctx) {
+export async function updateUser(root, args, ctx) {
   const authed_user = get_authed_user(ctx);
   if (authed_user) {
     const user = await User.findById(authed_user).lean();
-    const updated = Object.assign({}, user, {
-      email,
+    const updated = Object.assign({}, user, args, {
       _id: user._id.toString()
-    })
-    await User.updateOne({ _id: authed_user }, { email });
+    });
+    await User.updateOne({ _id: authed_user }, args);
     return updated;
   }
 }

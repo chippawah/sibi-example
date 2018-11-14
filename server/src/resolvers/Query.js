@@ -17,7 +17,6 @@ async function todos() {
 async function users(root, args, ctx) {
   const users = await User.find().lean()
   return users.map((user) => {
-    console.log('USER', user)
     return Object.assign({}, user, { _id: user._id.toString() })
   })
 }

@@ -25,6 +25,8 @@ export default class Login extends Component {
     login: true,
     email: '',
     password: '',
+    first_name: '',
+    last_name: '',
   }
   // Helper to save the user to the sessionStorage after authenticating
   _saveUser = async (data) => {
@@ -63,7 +65,7 @@ export default class Login extends Component {
     }
   }
   render() {
-    const { login, email, password } = this.state;
+    const { login, email, password, first_name, last_name } = this.state;
     return (
       <Form>
         <PageHeader>{login ? 'Login' : 'Sign Up'}</PageHeader>
@@ -87,10 +89,32 @@ export default class Login extends Component {
                 placeholder="Choose a safe password"
               />
             </FormGroup>
+            {login ? '' : (
+              <div>
+                <FormGroup controlId="userFormFirstName">
+                  <ControlLabel>First Name</ControlLabel>
+                  <FormControl
+                    value={first_name}
+                    onChange={e => this.setState({ first_name: e.target.value })}
+                    type="text"
+                    placeholder="First Name"
+                  />
+                </FormGroup>
+                <FormGroup controlId="userFormLastName">
+                  <ControlLabel>Last Name</ControlLabel>
+                  <FormControl
+                    value={last_name}
+                    onChange={e => this.setState({ last_name: e.target.value })}
+                    type="text"
+                    placeholder="Last Name"
+                  />
+                </FormGroup>
+              </div>
+              )}
             <Row>
               <Mutation
                 mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-                variables={{ email, password }}
+                variables={{ email, password, first_name, last_name }}
                 onCompleted={(data) => {this._saveUser(data)}}
                 update={this.updateStore}
               >
