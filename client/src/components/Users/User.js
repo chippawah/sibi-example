@@ -39,9 +39,9 @@ export default class User extends Component {
   renderUser = () => {
     return (
       <div>
-        <Label>Email:</Label><p>{this.props.user.email}</p>
         <Label>First Name:</Label><p>{this.props.user.first_name}</p>
         <Label>Last Name:</Label><p>{this.props.user.last_name}</p>
+        <Label>Email:</Label><p>{this.props.user.email}</p>
       </div>
 
     );
